@@ -1,0 +1,21 @@
+[package]
+name = "serde_either"
+version = "0.1.0"
+authors = ["Adilson Schmitt Junior <adilsonschj@gmail.com>"]
+edition = "2018"
+readme = "README.md"
+license = "MIT OR Apache-2.0"
+keywords = ["serde", "deserialize", "serialize"]
+categories = ["data-structures"]
+
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+serde = { version = "1.0.117" }
+serde-value = "0.7.0"
+
+[dev-dependencies]
+serde = { version = "1.0.117", features = ["derive"] }
+serde_json = "1.0.59"
+eyre = "0.6.5"
