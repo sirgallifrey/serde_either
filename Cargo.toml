@@ -7,7 +7,7 @@ readme = "README.md"
 license = "MIT OR Apache-2.0"
 keywords = ["serde", "deserialize", "serialize"]
 categories = ["data-structures"]
-
+description = "Simple set to enums to deserialize and serialize data that can either be string, struct or vec"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
