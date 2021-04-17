@@ -15,8 +15,8 @@ Or like
 ```json
 {
   "authors": {
-    first_name: "John",
-    last_name: "Smith"
+    "first_name": "John",
+    "last_name": "Smith"
   }
 }
 ```
@@ -72,12 +72,12 @@ And if you need to also capture a possible array of authors like this:
 {
   "authors": [
     {
-      first_name: "John",
-      last_name: "Smith"
+      "first_name": "John",
+      "last_name": "Smith"
     },
     {
-      first_name: "Michael",
-      last_name: "Smith"
+      "first_name": "Michael",
+      "last_name": "Smith"
     },
   ]
 }
