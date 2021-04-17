@@ -85,7 +85,7 @@ And if you need to also capture a possible array of authors like this:
 
 Then all you need to change is:
 
-```Rust
+```rust
 use serde_either::StringOrStructOrVec;
 
 // ...
