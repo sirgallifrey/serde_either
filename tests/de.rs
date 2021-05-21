@@ -1,8 +1,8 @@
 mod common;
 
-use crate::common::{MyType, SimpleStruct};
+use crate::common::{MyType, Person, SimpleStruct};
 use eyre::eyre;
-use serde_either::{StringOrStruct, StringOrStructOrVec};
+use serde_either::{SingleOrVec, StringOrStruct, StringOrStructOrVec};
 use serde_json;
 
 mod string_or_struct {
@@ -251,5 +251,69 @@ mod string_or_struct_or_vec {
 
             assert!(res.is_err());
         }
+    }
+}
+
+mod single_or_vec {
+    use super::*;
+
+    #[test]
+    fn single() {
+        let string_value_json = r#"{
+            "first_name": "Bob",
+            "last_name": "Smith"
+        }"#;
+
+        let res: SingleOrVec<Person> = serde_json::from_str(string_value_json).unwrap();
+
+        let value = match res {
+            SingleOrVec::Single(v) => Ok(v),
+            _ => Err(eyre!("Wrong deserialize type")),
+        };
+
+        assert!(value.is_ok());
+        assert_eq!(
+            value.unwrap(),
+            Person {
+                first_name: String::from("Bob"),
+                last_name: String::from("Smith")
+            }
+        );
+    }
+
+    #[test]
+    fn vec() {
+        let string_value_json = r#"[
+            {
+                "first_name": "Bob",
+                "last_name": "Smith"
+            },
+            {
+                "first_name": "Uncle",
+                "last_name": "Jones"
+            }
+        ]"#;
+
+        let res: SingleOrVec<Person> = serde_json::from_str(string_value_json).unwrap();
+
+        let value = match res {
+            SingleOrVec::Vec(v) => Ok(v),
+            _ => Err(eyre!("Wrong deserialize type")),
+        };
+
+        assert!(value.is_ok());
+        assert_eq!(
+            value.unwrap(),
+            vec!(
+                Person {
+                    first_name: String::from("Bob"),
+                    last_name: String::from("Smith")
+                },
+                Person {
+                    first_name: String::from("Uncle"),
+                    last_name: String::from("Jones")
+                }
+            )
+        );
     }
 }

@@ -11,3 +11,9 @@ pub enum StringOrStructOrVec<S, V> {
     Struct(S),
     Vec(V),
 }
+
+#[derive(Debug, PartialEq)]
+pub enum SingleOrVec<S> {
+    Single(S),
+    Vec(Vec<S>)
+}

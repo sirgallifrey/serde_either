@@ -2,7 +2,7 @@
 use serde::{
     ser::{Serialize, Serializer},
 };
-use crate::enums::{StringOrStruct, StringOrStructOrVec};
+use crate::enums::{StringOrStruct, StringOrStructOrVec, SingleOrVec};
 
 impl<S, V> Serialize for StringOrStructOrVec<S, V>
 where
@@ -32,6 +32,21 @@ where
         match self {
             StringOrStruct::String(s) => s.serialize(serializer),
             StringOrStruct::Struct(s) => s.serialize(serializer),
+        }
+    }
+}
+
+impl<S> Serialize for SingleOrVec<S>
+where
+    S: Serialize,
+{
+    fn serialize<Se>(&self, serializer: Se) -> Result<Se::Ok, Se::Error>
+    where
+        Se: Serializer,
+    {
+        match self {
+            SingleOrVec::Single(s) => s.serialize(serializer),
+            SingleOrVec::Vec(s) => s.serialize(serializer),
         }
     }
 }

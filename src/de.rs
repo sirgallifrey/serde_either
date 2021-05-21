@@ -3,7 +3,7 @@ use serde::{
     de::{Deserialize, Deserializer, Error, Expected, Unexpected},
 };
 use serde_value::{Value, ValueDeserializer};
-use crate::enums::{StringOrStruct, StringOrStructOrVec};
+use crate::enums::{StringOrStruct, StringOrStructOrVec, SingleOrVec};
 
 // the unexpected function was copied from https://github.com/arcnmx/serde-value/blob/master/src/lib.rs
 // note that serde-value is licensed under MIT https://github.com/arcnmx/serde-value/blob/master/COPYING
@@ -89,6 +89,23 @@ where
             StringOrStructOrVec::Struct(v) | StringOrStructOrVec::Vec(v) => {
                 Ok(StringOrStruct::Struct(v))
             }
+        };
+    }
+}
+
+impl<'de, S> Deserialize<'de> for SingleOrVec<S>
+where
+    S: Deserialize<'de>,
+{
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: Deserializer<'de>,
+    {
+        let value = Value::deserialize(deserializer)?;
+
+        return match value {
+            Value::Seq(_) => Ok(Self::Vec(Vec::<S>::deserialize(ValueDeserializer::new(value))?)),
+            _ => Ok(Self::Single(S::deserialize(ValueDeserializer::new(value))?)),
         };
     }
 }

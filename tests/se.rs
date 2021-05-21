@@ -1,7 +1,7 @@
 mod common;
 
 use crate::common::SimpleStruct;
-use serde_either::{StringOrStruct, StringOrStructOrVec};
+use serde_either::{SingleOrVec, StringOrStruct, StringOrStructOrVec};
 use serde_json;
 
 mod string_or_struct {
@@ -104,5 +104,42 @@ mod string_or_struct_or_vec {
                 "[{\"number\":912,\"text\":\"some text\"},{\"number\":100,\"text\":\"\"}]"
             );
         }
+    }
+}
+
+mod single_or_vec {
+    use super::*;
+
+    #[test]
+    fn single_value() {
+        let value = SingleOrVec::Single(SimpleStruct {
+            number: 912,
+            text: String::from("some text"),
+        });
+
+        let res = serde_json::to_string(&value);
+
+        assert_eq!(res.unwrap(), r#"{"number":912,"text":"some text"}"#);
+    }
+
+    #[test]
+    fn vec_value() {
+        let value = SingleOrVec::Vec(vec![
+            SimpleStruct {
+                number: 912,
+                text: String::from("some text"),
+            },
+            SimpleStruct {
+                number: 100,
+                text: String::from("text"),
+            },
+        ]);
+
+        let res = serde_json::to_string(&value);
+
+        assert_eq!(
+            res.unwrap(),
+            r#"[{"number":912,"text":"some text"},{"number":100,"text":"text"}]"#
+        );
     }
 }
