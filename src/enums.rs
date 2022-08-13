@@ -1,4 +1,3 @@
-
 #[derive(Debug, PartialEq)]
 pub enum StringOrStruct<S> {
     String(String),
@@ -34,7 +33,7 @@ impl<S: Clone, V: Clone> Clone for StringOrStructOrVec<S, V> {
 #[derive(Debug, PartialEq)]
 pub enum SingleOrVec<S> {
     Single(S),
-    Vec(Vec<S>)
+    Vec(Vec<S>),
 }
 
 impl<S: Clone> Clone for SingleOrVec<S> {

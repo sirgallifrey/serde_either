@@ -1,8 +1,5 @@
-
-use serde::{
-    ser::{Serialize, Serializer},
-};
-use crate::enums::{StringOrStruct, StringOrStructOrVec, SingleOrVec};
+use crate::enums::{SingleOrVec, StringOrStruct, StringOrStructOrVec};
+use serde::ser::{Serialize, Serializer};
 
 impl<S, V> Serialize for StringOrStructOrVec<S, V>
 where

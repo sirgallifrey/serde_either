@@ -50,8 +50,8 @@
 //! ```
 //!
 
-mod enums;
 mod de;
+mod enums;
 mod se;
 
 pub use enums::*;
